@@ -12,8 +12,8 @@ export default () => {
       return '0.00';
     }
 
-    let minutes = Math.floor(secs / 60);
-    let seconds = Math.floor(secs % 60);
+    const minutes = Math.floor(secs / 60);
+    const seconds = Math.floor(secs % 60);
 
     return seconds <= 9 ? `${minutes}:0${seconds}` : `${minutes}:${seconds}`;
   };
@@ -27,7 +27,7 @@ export default () => {
       <Slider />
       <View style={styles.timeContainer}>
         <Text style={styles.time}>{timePassed}</Text>
-        <Text style={styles.time}>{duration}</Text>
+        <Text style={styles.time}>'duration'</Text>
       </View>
     </View>
   );

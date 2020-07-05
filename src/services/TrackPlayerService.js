@@ -1,4 +1,6 @@
 import TrackPlayer from 'react-native-track-player';
+import { store } from '../redux/store';
+import { SET_PLAYBACK } from '../redux/type';
 
 class TrackPlayerService {
   setupPlayer = async () => {
@@ -28,10 +30,12 @@ class TrackPlayerService {
   trackControlListener = async () => {
     TrackPlayer.addEventListener('remote-play', () => {
       TrackPlayer.play();
+      store.dispatch({ type: SET_PLAYBACK, payload: true });
     });
 
     TrackPlayer.addEventListener('remote-pause', () => {
       TrackPlayer.pause();
+      store.dispatch({ type: SET_PLAYBACK, payload: false });
     });
 
     TrackPlayer.addEventListener('remote-next', () => {});
