@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Permission, PERMISSION_TYPE} from './utils/AppPermission';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Permission, PERMISSION_TYPE } from './utils/AppPermission';
 
 const App = () => {
   useEffect(() => {

@@ -8,6 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
+    "format": "prettier --check ./src && echo 'Format complete.'",
     "clean:android": "cd android && gradlew clean && cd ../",
     "clean:ios": "cd ios && xcodebuild clean && cd ../"
   },
@@ -32,6 +33,7 @@
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.58.0",
+    "prettier": "^2.0.5",
     "react-test-renderer": "16.11.0"
   },
   "jest": {

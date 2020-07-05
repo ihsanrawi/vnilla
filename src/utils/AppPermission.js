@@ -1,5 +1,5 @@
-import {Platform} from 'react-native';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import { Platform } from 'react-native';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 const PLATFORM_STORAGE_PERMISSIONS = {
   ios: PERMISSIONS.IOS.MEDIA_LIBRARY,
@@ -22,7 +22,7 @@ const PERMISSION_TYPE = {
 };
 
 class AppPermission {
-  checkPermission = async type => {
+  checkPermission = async (type) => {
     const permissions = REQUEST_PERMISSION_TYPE[type][Platform.OS];
 
     if (!permissions) {
@@ -39,7 +39,7 @@ class AppPermission {
     }
   };
 
-  requestPermission = async permissions => {
+  requestPermission = async (permissions) => {
     try {
       const result = await request(permissions);
       return result === RESULTS.GRANTED;
@@ -50,4 +50,4 @@ class AppPermission {
 }
 
 const Permission = new AppPermission();
-export {Permission, PERMISSION_TYPE};
+export { Permission, PERMISSION_TYPE };

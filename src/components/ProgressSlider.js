@@ -1,13 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 
 export default () => {
-  const msToSec = ms => {
+  const msToSec = (ms) => {
     return parseInt(ms / 1000, 10);
   };
 
-  const secToTime = secs => {
+  const secToTime = (secs) => {
     if (secs < 0) {
       return '0.00';
     }
@@ -18,7 +18,7 @@ export default () => {
     return seconds <= 9 ? `${minutes}:0${seconds}` : `${minutes}:${seconds}`;
   };
 
-  const timePassed = duration => {
+  const timePassed = (duration) => {
     return secToTime();
   };
 

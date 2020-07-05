@@ -1,4 +1,4 @@
-import {RNAndroidAudioStore} from 'react-native-get-music-files';
+import { RNAndroidAudioStore } from 'react-native-get-music-files';
 import RNFetchBlob from 'rn-fetch-blob';
 
 const options = {
@@ -13,9 +13,7 @@ const options = {
 class MediaExplorer {
   getMedia = async () => {
     try {
-      let permission = await Permission.checkPermission(
-        PERMISSION_TYPE.storage,
-      );
+      let permission = await Permission.checkPermission(PERMISSION_TYPE.storage);
     } catch (error) {}
   };
 
