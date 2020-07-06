@@ -1,5 +1,5 @@
 import TrackPlayer from 'react-native-track-player';
-import { CURRENT_TRACK, SET_PLAYBACK } from '../type';
+import { CURRENT_TRACK, SET_PLAYBACK, PLAY_NEXT } from '../type';
 
 export const setCurrentTrack = (currentTrack) => async (dispatch) => {
   try {
@@ -16,4 +16,9 @@ export const setCurrentTrack = (currentTrack) => async (dispatch) => {
 export const setPlayback = (isPlaying) => {
   isPlaying ? TrackPlayer.play() : TrackPlayer.pause();
   return { type: SET_PLAYBACK, payload: isPlaying };
+};
+
+export const setPlayNext = () => {
+  TrackPlayer.skipToNext();
+  dispatch({ type: PLAY_NEXT, payload });
 };

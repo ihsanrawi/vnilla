@@ -1,3 +1,3 @@
 export * from './playerFooter';
 export * from './playback';
-export * from './media';
+export * from './getMedia';
