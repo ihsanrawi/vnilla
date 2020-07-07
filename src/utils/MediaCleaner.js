@@ -5,7 +5,8 @@ export default function cleaupMedia(mediaFiles) {
 
   for (let i = 0; i < mediaFiles.length; i++) {
     if (mediaFiles[i].title) {
-      folderName = getFolder(mediaFiles[i]);
+      folderName = getFolder(mediaFiles[i].path);
+
       newMedia.push({
         id: mediaFiles[i].duration + i,
         duration: mediaFiles[i].duration,
