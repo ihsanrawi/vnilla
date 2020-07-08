@@ -46,7 +46,7 @@ const MiniPlayer = (props) => {
   // const coverSrc = currentTrack.artwork ? currentTrack.artwork : placeholder;
   const coverSrc = placeholder;
 
-  return renderMiniPlayer && currentTrack.id !== '001' ? (
+  return renderMiniPlayer && currentTrack.id !== '000' ? (
     <TouchableWithoutFeedback>
       <View style={styles.container}>
         <Image style={styles.cover} source={coverSrc} />
@@ -59,7 +59,7 @@ const MiniPlayer = (props) => {
           ) : (
             <Icon {...icons.playIcon} onPress={tooglePlayback} />
           )}
-          <Icon {...icons.forwardIcon} onPress={tooglePlayback} />
+          <Icon {...icons.forwardIcon} />
         </View>
         <View style={styles.progressContainer}>
           {/* <ProgressBar style={styles.progressbar} progress /> */}
