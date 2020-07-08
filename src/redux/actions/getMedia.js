@@ -1,11 +1,10 @@
 import { RNAndroidAudioStore } from 'react-native-get-music-files';
-// import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
 import { store } from '../store';
 import { GET_MEDIA_SUCCESS } from '../type';
-import cleaupMedia from '../../utils/MediaCleaner';
+import cleanupMedia from '../../utils/MediaCleaner';
 
 const options = {
-  id: true,
   title: true,
   artist: true,
   album: true,
@@ -15,11 +14,13 @@ const options = {
 };
 
 const getMediaWithCovers = async () => {
-  // const coverFolder = `${RNFetchBlob.fs.dirs.DocumentDir}/.AwsomeProject`;
+  const coverFolder = `${RNFetchBlob.fs.dirs.DocumentDir}/.AwsomeProject`;
   const results = await RNAndroidAudioStore.getAll({
     ...options,
+    cover: true,
+    coverFolder,
   });
-  return results;
+  return cleanupMedia(results);
 };
 
 export const getMedia = () => async (dispatch) => {
@@ -31,7 +32,7 @@ export const getMedia = () => async (dispatch) => {
       dispatch({ type: GET_MEDIA_SUCCESS, payload: mediaWithCovers });
     } else {
       const results = await RNAndroidAudioStore.getAll(options);
-      const cleanedMedia = cleaupMedia(results);
+      const cleanedMedia = cleanupMedia(results);
 
       dispatch({ type: GET_MEDIA_SUCCESS, payload: cleanedMedia });
       const mediaWithCovers = await getMediaWithCovers();
