@@ -1,7 +1,7 @@
 import { GET_MEDIA_SUCCESS } from '../type';
 
 const initialState = {
-  mediaFile: [],
+  mediaFiles: [],
   mediaLoaded: false,
 };
 
