@@ -6,6 +6,7 @@ import TrackPlayer from 'react-native-track-player';
 
 import * as actions from '../redux/actions';
 import PlayerService from '../services/TrackPlayerService';
+import RenderTrack from '../components/RenderTrack';
 
 const SCREEEN_HEIGHT = Dimensions.get('window').height;
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
@@ -14,7 +15,7 @@ const VIEWPORT_HEIGHT = SCREEEN_HEIGHT - (STATUSBAR_HEIGHT + FOOTER_HEIGHT);
 const ITEM_HEIGHT = 75;
 
 const TrackScreen = (props) => {
-  const { currentTrack, mediaLoaded, media, /* navigation, */ showFooter } = props;
+  const { currentTrack, mediaLoaded, mediaFiles, /* navigation, */ showFooter } = props;
   const [scrollY] = useState(new Animated.Value(0));
   const [modal, setModal] = useState({ visible: false, item: {} });
 
@@ -38,13 +39,13 @@ const TrackScreen = (props) => {
   });
 
   if (mediaLoaded) {
-    if (media.length > 0) {
+    if (mediaFiles.length > 0) {
       return (
         <View style={renderMargin}>
           <QuickScrollList
-            keyExtractor={(asset) => asset.id.toString()}
-            data={media}
-            renderItem={this.renderItem}
+            keyExtractor={(mediaFile) => mediaFile.id.toString()}
+            data={mediaFiles}
+            renderItem={({ item }) => <RenderTrack item={item} setOptions={setModal} />}
             itemHeight={ITEM_HEIGHT}
             viewportHeight={VIEWPORT_HEIGHT}
           />
@@ -70,7 +71,7 @@ const TrackScreen = (props) => {
 function mapStateToProps(state) {
   return {
     currentTrack: state.playback.currentTrack,
-    media: state.media.mediaFiles,
+    mediaFiles: state.media.mediaFiles,
     mediaLoaded: state.media.mediaLoaded,
   };
 }
