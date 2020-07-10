@@ -1,37 +1,61 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Animated } from 'react-native';
+/* eslint-disable no-mixed-spaces-and-tabs */
+import React from 'react';
+import { View, Animated } from 'react-native';
 
+const INDETERMINATE_DURATION = 2000;
 const INDETERMINATE_MAX_WIDTH = 0.6;
 
-const ProgressBar = (props) => {
-  const { color, indeterminate, style, visible } = props;
+class ProgressBar extends React.Component {
+  static defaultProps = {
+    visible: true,
+    progress: 0,
+    theme: {
+      animation: {
+        scale: 1,
+      },
+    },
+  };
 
-  const [state, setState] = useState({
+  state = {
     width: 0,
     timer: new Animated.Value(0),
     fade: new Animated.Value(0),
-  });
+  };
 
-  const [indeterminateAnimation, setIndeterminateAnimation] = useState();
+  indeterminateAnimation = null;
 
-  const onLayout = (event) => {
-    const { width: previousWidth } = state;
-    setState({ width: event.nativeEvent.layout.width }, () => {
+  componentDidUpdate(prevProps) {
+    const { visible, progress } = this.props;
+
+    if (progress !== prevProps.progress || visible !== prevProps.visible) {
+      if (visible) {
+        this.startAnimation();
+      } else {
+        this.stopAnimation();
+      }
+    }
+  }
+
+  onLayout = (event) => {
+    const { visible } = this.props;
+    const { width: previousWidth } = this.state;
+
+    this.setState({ width: event.nativeEvent.layout.width }, () => {
       if (visible && previousWidth === 0) {
-        startAnimation();
+        this.startAnimation();
       }
     });
   };
 
-  const startAnimation = () => {
+  startAnimation = () => {
     const {
       indeterminate,
       progress,
       theme: {
         animation: { scale },
       },
-    } = props;
-    const { fade, timer } = state;
+    } = this.props;
+    const { fade, timer } = this.state;
 
     Animated.timing(fade, {
       duration: 200 * scale,
@@ -61,12 +85,12 @@ const ProgressBar = (props) => {
     }
   };
 
-  const stopAnimation = () => {
-    const { fade } = state;
-    const { scale } = props.theme.animation;
+  stopAnimation = () => {
+    const { fade } = this.state;
+    const { scale } = this.props.theme.animation;
 
-    if (indeterminateAnimation) {
-      indeterminateAnimation.stop();
+    if (this.indeterminateAnimation) {
+      this.indeterminateAnimation.stop();
     }
 
     Animated.timing(fade, {
@@ -77,73 +101,64 @@ const ProgressBar = (props) => {
     }).start();
   };
 
-  const { fade, timer, width } = state;
-  const tintColor = color;
-  const trackTintColor = color.replace('1', '0.2');
+  render() {
+    const { color, indeterminate, style } = this.props;
+    const { fade, timer, width } = this.state;
+    const tintColor = color;
+    const trackTintColor = color.replace('1', '0.2');
 
-  return (
-    <View onLayout={onLayout}>
-      <Animated.View
-        style={[styles.container, { backgroundColor: trackTintColor, opacity: fade }, style]}>
+    return (
+      <View onLayout={this.onLayout}>
         <Animated.View
-          style={[
-            styles.progressBar,
-            {
-              backgroundColor: tintColor,
-              width,
-              transform: [
-                {
-                  translateX: timer.interpolate(
-                    indeterminate
-                      ? {
-                          inputRange: [0, 0.5, 1],
-                          outputRange: [
-                            -1 * 0.5 * width,
-                            -1 * 0.5 * INDETERMINATE_MAX_WIDTH * width,
-                            0.7 * width,
-                          ],
-                        }
-                      : {
-                          inputRange: [0, 1],
-                          outputRange: [-1 * 0.5 * width, 0],
-                        },
-                  ),
-                },
-                {
-                  scaleX: timer.interpolate(
-                    indeterminate
-                      ? {
-                          inputRange: [0, 0.5, 1],
-                          outputRange: [0.0001, INDETERMINATE_MAX_WIDTH, 0.0001],
-                        }
-                      : {
-                          inputRange: [0, 1],
-                          outputRange: [0.0001, 1],
-                        },
-                  ),
-                },
-              ],
-            },
-          ]}
-        />
-      </Animated.View>
-    </View>
-  );
-};
+          style={[styles.container, { backgroundColor: trackTintColor, opacity: fade }, style]}>
+          <Animated.View
+            style={[
+              styles.progressBar,
+              {
+                backgroundColor: tintColor,
+                width,
+                transform: [
+                  {
+                    translateX: timer.interpolate(
+                      indeterminate
+                        ? {
+                            inputRange: [0, 0.5, 1],
+                            outputRange: [
+                              -1 * 0.5 * width,
+                              -1 * 0.5 * INDETERMINATE_MAX_WIDTH * width,
+                              0.7 * width,
+                            ],
+                          }
+                        : {
+                            inputRange: [0, 1],
+                            outputRange: [-1 * 0.5 * width, 0],
+                          },
+                    ),
+                  },
+                  {
+                    scaleX: timer.interpolate(
+                      indeterminate
+                        ? {
+                            inputRange: [0, 0.5, 1],
+                            outputRange: [0.0001, INDETERMINATE_MAX_WIDTH, 0.0001],
+                          }
+                        : {
+                            inputRange: [0, 1],
+                            outputRange: [0.0001, 1],
+                          },
+                    ),
+                  },
+                ],
+              },
+            ]}
+          />
+        </Animated.View>
+      </View>
+    );
+  }
+}
 
-ProgressBar.defaultProps = {
-  visible: true,
-  progress: 0,
-  theme: {
-    animation: {
-      scale: 1,
-    },
-  },
-};
-
-export default ProgressBar;
-
-const styles = StyleSheet.create({
+const styles = {
   container: {
     height: 4,
     overflow: 'hidden',
@@ -151,4 +166,6 @@ const styles = StyleSheet.create({
   progressBar: {
     flex: 1,
   },
-});
+};
+
+export default ProgressBar;
