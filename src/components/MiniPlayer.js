@@ -1,15 +1,15 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
-// import { useTrackPlayerProgress } from 'react-native-track-player/lib/hooks';
+import { useTrackPlayerProgress } from 'react-native-track-player';
 
 import * as actions from '../redux/actions';
 import Icon from './Icon';
-import { light } from '../utils/themes/light';
 import ProgressBar from './ProgressBar';
-
-const placeholder = require('../../assets/images/placeholder.jpg');
+import color from '../utils/color';
+import DefaultArtwork from '../../assets/images/default_artwork.svg';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -17,39 +17,41 @@ const icons = {
   playIcon: {
     type: 'material',
     name: 'play-arrow',
-    size: 24,
-    color: `${light.contrast}`,
+    size: 42,
   },
   pauseIcon: {
     type: 'material',
     name: 'pause',
-    size: 24,
-    color: `${light.contrast}`,
+    size: 42,
   },
   forwardIcon: {
     type: 'material',
     name: 'fast-forward',
-    size: 24,
-    color: `${light.contrast}`,
+    size: 42,
   },
 };
 
 const MiniPlayer = (props) => {
   const { isPlaying, renderMiniPlayer, currentTrack } = props;
-  // const { position, duration } = useTrackPlayerProgress(100);
+  const { position, duration } = useTrackPlayerProgress(100);
+
   const tooglePlayback = () => {
     props.setPlayback(!isPlaying);
   };
 
-  // const progress = position / duration;
-  const progress = 5;
-  // const coverSrc = currentTrack.artwork ? currentTrack.artwork : placeholder;
-  const coverSrc = placeholder;
+  let progress = position / duration;
+  progress = isNaN(progress) ? 0 : +progress.toFixed(3);
 
-  return renderMiniPlayer && currentTrack.id !== '000' ? (
+  return renderMiniPlayer ? (
     <TouchableWithoutFeedback>
       <View style={styles.container}>
-        <Image style={styles.cover} source={coverSrc} />
+        <View style={styles.artworkContainer}>
+          {currentTrack.artwork ? (
+            <Image style={styles.cover} source={currentTrack.artwork} />
+          ) : (
+            <DefaultArtwork width={50} height={50} />
+          )}
+        </View>
         <View style={styles.infoContainer}>
           <Text style={styles.title}>{currentTrack.title}</Text>
         </View>
@@ -62,7 +64,7 @@ const MiniPlayer = (props) => {
           <Icon {...icons.forwardIcon} />
         </View>
         <View style={styles.progressContainer}>
-          {/* <ProgressBar style={styles.progressbar} progress /> */}
+          <ProgressBar style={styles.progressbar} progress={progress} color="#1ED760" />
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -86,33 +88,42 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 64,
-    backgroundColor: 'pink',
     alignItems: 'center',
     flexDirection: 'row',
     paddingLeft: 15,
+    borderTopColor: '#E9E9E9',
+    borderTopWidth: 1,
+    backgroundColor: '#F9F9F9',
+  },
+  artworkContainer: {
+    height: 64,
+    width: 64,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cover: {
-    height: 42,
-    width: 42,
+    height: 50,
+    width: 50,
     borderRadius: 8,
   },
   infoContainer: {
-    height: '75%',
-    flex: 2,
-    justifyContent: 'center',
-    marginLeft: 15,
+    height: 64,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 192,
   },
   title: {
     fontSize: 14,
-    color: `${light.contrast}`,
+    color: '#646464',
+    overflow: 'hidden',
   },
   subtitle: {},
   controlsContainer: {
-    height: '75%',
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-end',
+    paddingRight: 16,
   },
   progressContainer: {
     position: 'absolute',
@@ -122,7 +133,7 @@ const styles = StyleSheet.create({
   },
   progressbar: {
     height: 2,
-    width: `${SCREEN_WIDTH}`,
-    backgroundColor: `${light.contrast}`,
+    width: SCREEN_WIDTH,
+    backgroundColor: color.gray[4],
   },
 });
