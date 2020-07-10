@@ -5,8 +5,8 @@ import QuickScrollList from 'react-native-quick-scroll';
 import TrackPlayer from 'react-native-track-player';
 
 import * as actions from '../redux/actions';
-import PlayerService from '../services/TrackPlayerService';
-import RenderTrack from '../components/RenderTrack';
+import setupPlayer from '../services/SetupPlayer';
+import Button from '../components/Button';
 
 const SCREEEN_HEIGHT = Dimensions.get('window').height;
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
@@ -26,17 +26,13 @@ const TrackScreen = (props) => {
 
   useEffect(() => {
     props.getMedia();
-    PlayerService.setupPlayer().then(
-      () => currentTrack.id !== '000' && TrackPlayer.add(currentTrack),
-    );
+    setupPlayer().then(() => currentTrack.id !== '000' && TrackPlayer.add(currentTrack));
   }, []);
 
-  const renderMargin = currentTrack.id !== '000' ? { marginBottom: 60, flex: 1 } : { flex: 1 };
-  const headerHeight = scrollY.interpolate({
-    inputRange: [0, 20],
-    outputRange: [20, 0],
-    extrapolate: 'clamp',
-  });
+  const renderMargin =
+    currentTrack.id !== '000'
+      ? { marginBottom: 60, flex: 1, alignItems: 'center' }
+      : { flex: 1, alignItems: 'center' };
 
   if (mediaLoaded) {
     if (mediaFiles.length > 0) {
@@ -45,7 +41,20 @@ const TrackScreen = (props) => {
           <QuickScrollList
             keyExtractor={(mediaFile) => mediaFile.id.toString()}
             data={mediaFiles}
-            renderItem={({ item }) => <RenderTrack item={item} setOptions={setModal} />}
+            renderItem={({ item }) => (
+              <Button
+                label={item.title}
+                item={item}
+                onPress={() => {
+                  if (item.id !== currentTrack.id) props.setCurrentTrack(item);
+                }}
+              />
+            )}
+            onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+              useNativeDriver: false,
+            })}
+            contentContainerStyle={styles.flatlistContent}
+            scrollEventThrottle={16}
             itemHeight={ITEM_HEIGHT}
             viewportHeight={VIEWPORT_HEIGHT}
           />
@@ -106,6 +115,6 @@ const styles = StyleSheet.create({
   },
   flatlistContent: {
     marginTop: 20,
-    paddingBottom: 20,
+    paddingBottom: 25,
   },
 });
