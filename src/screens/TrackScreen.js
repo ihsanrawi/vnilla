@@ -10,7 +10,7 @@ import Button from '../components/Button';
 
 const SCREEEN_HEIGHT = Dimensions.get('window').height;
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
-const FOOTER_HEIGHT = 60;
+const FOOTER_HEIGHT = 64;
 const VIEWPORT_HEIGHT = SCREEEN_HEIGHT - (STATUSBAR_HEIGHT + FOOTER_HEIGHT);
 const ITEM_HEIGHT = 75;
 
@@ -25,7 +25,6 @@ const TrackScreen = (props) => {
   }, [navigation, showFooter]); */
 
   useEffect(() => {
-    props.getMedia();
     setupPlayer().then(() => currentTrack.id !== '000' && TrackPlayer.add(currentTrack));
   }, []);
 
