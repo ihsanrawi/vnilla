@@ -1,7 +1,12 @@
-export default function cleaupMedia(mediaFiles) {
-  if (!Array.isArray(mediaFiles) || mediaFiles.length === 0) return [];
+function cleaupMedia(media) {
+  if (!Array.isArray(media) || media.length === 0) return [];
   const newMedia = [];
   let folderName = '';
+  const foldersToSkip = ['whatsapp audio'];
+
+  const mediaFiles = media.filter(
+    (val) => !foldersToSkip.includes(getFolder(val.path).toLowerCase()),
+  );
 
   for (let i = 0; i < mediaFiles.length; i++) {
     if (mediaFiles[i].title) {
@@ -28,3 +33,18 @@ function getFolder(path) {
   const dirArr = path.split('/');
   return dirArr[dirArr.length - 2];
 }
+
+function getArtist(mediaFiles) {
+  const artistArr = [];
+  for (let i = 0; i < mediaFiles.length; i++) {
+    const { artist } = mediaFiles[i];
+    if (!artistArr.includes(artist)) {
+      artistArr.push(artist);
+    }
+  }
+
+  return artistArr;
+}
+
+export default cleaupMedia;
+export { getArtist };
