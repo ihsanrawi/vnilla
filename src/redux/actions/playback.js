@@ -6,6 +6,7 @@ export const setCurrentTrack = (currentTrack) => async (dispatch) => {
     await TrackPlayer.reset();
     await TrackPlayer.add(currentTrack);
     dispatch({ type: CURRENT_TRACK, payload: currentTrack });
+    dispatch({ type: SET_PLAYBACK, payload: true });
     TrackPlayer.play();
     dispatch({ type: '', payload: true });
   } catch (error) {
