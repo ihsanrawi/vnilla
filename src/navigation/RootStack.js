@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-
+import MainStack from './MainStack';
 import PlayerScreen from '../screens/PlayerScreen';
 
 const screenOptions = {
@@ -10,15 +10,16 @@ const screenOptions = {
 };
 
 function RootStack() {
-  const Stack = createStackNavigator();
+  const Modal = createStackNavigator();
   return (
-    <Stack.Navigator
+    <Modal.Navigator
       mode="modal"
       headerMode="none"
-      initialRouteName="player"
+      initialRouteName="main"
       screenOptions={screenOptions}>
-      <Stack.Screen name="player" component={PlayerScreen} />
-    </Stack.Navigator>
+      <Modal.Screen name="main" component={MainStack} />
+      <Modal.Screen name="player" component={PlayerScreen} />
+    </Modal.Navigator>
   );
 }
 

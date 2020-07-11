@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { navigationRef } from '../services/NavigationService';
+import RootStack from './RootStack';
 import MiniPlayer from '../components/MiniPlayer';
-import LibraryStack from './LibraryStack';
 
 const RootNavigator = () => {
   return (
-    <NavigationContainer>
-      <LibraryStack />
+    <NavigationContainer ref={navigationRef}>
+      <RootStack />
       <MiniPlayer />
     </NavigationContainer>
   );

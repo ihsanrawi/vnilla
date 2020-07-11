@@ -12,7 +12,7 @@ const screenOptions = {
   cardOverlayEnabled: false,
 };
 
-function LibraryStack() {
+function MainStack() {
   const Library = createStackNavigator();
   return (
     <Library.Navigator
@@ -28,4 +28,4 @@ function LibraryStack() {
   );
 }
 
-export default LibraryStack;
+export default MainStack;
