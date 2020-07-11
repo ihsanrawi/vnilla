@@ -32,11 +32,17 @@ const icons = {
 };
 
 const MiniPlayer = (props) => {
-  const { isPlaying, renderMiniPlayer, currentTrack } = props;
+  const { isPlaying, renderMiniPlayer, media, currentTrack } = props;
   const { position, duration } = useTrackPlayerProgress(100);
 
   const tooglePlayback = () => {
     props.setPlayback(!isPlaying);
+  };
+
+  const skipForward = () => {
+    const nextTrack =
+      currentTrack.index === media.length - 1 ? media[0] : media[currentTrack.index + 1];
+    props.setCurrentTrack(nextTrack);
   };
 
   let progress = position / duration;
@@ -61,7 +67,7 @@ const MiniPlayer = (props) => {
           ) : (
             <Icon {...icons.playIcon} onPress={tooglePlayback} />
           )}
-          <Icon {...icons.forwardIcon} />
+          <Icon {...icons.forwardIcon} onPress={skipForward} />
         </View>
         <View style={styles.progressContainer}>
           <ProgressBar style={styles.progressbar} progress={progress} color="#1ED760" />
@@ -74,6 +80,7 @@ const MiniPlayer = (props) => {
 const mapStateToProps = (state) => {
   return {
     renderMiniPlayer: state.footer.footerVisible,
+    media: state.media.mediaFiles,
     currentTrack: state.playback.currentTrack,
     isPlaying: state.player.isPlaying,
   };
@@ -116,7 +123,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     color: '#646464',
-    overflow: 'hidden',
   },
   subtitle: {},
   controlsContainer: {
