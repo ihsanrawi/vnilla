@@ -1,10 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
+
+import * as actions from '../redux/actions';
 import Button from '../components/Button';
 
 const LibraryScreen = (props) => {
   const { navigation } = props;
+
+  useEffect(() => {
+    props.getMedia();
+    props.getArtists();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -15,7 +23,7 @@ const LibraryScreen = (props) => {
   );
 };
 
-export default LibraryScreen;
+export default connect(null, actions)(LibraryScreen);
 
 const styles = StyleSheet.create({
   container: {
