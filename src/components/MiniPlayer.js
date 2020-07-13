@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Dimensions, Image, TouchableWithoutFeedback } f
 import { connect } from 'react-redux';
 import { useTrackPlayerProgress } from 'react-native-track-player';
 
+import * as navigation from '../services/NavigationService';
 import * as actions from '../redux/actions';
 import Icon from './Icon';
 import ProgressBar from './ProgressBar';
@@ -49,7 +50,7 @@ const MiniPlayer = (props) => {
   progress = isNaN(progress) ? 0 : +progress.toFixed(3);
 
   return renderMiniPlayer ? (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={() => navigation.navigate('player')}>
       <View style={styles.container}>
         <View style={styles.artworkContainer}>
           {currentTrack.artwork ? (

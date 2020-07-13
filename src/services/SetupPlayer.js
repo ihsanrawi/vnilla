@@ -21,5 +21,5 @@ const options = {
 
 export default async function () {
   await TrackPlayer.setupPlayer();
-  TrackPlayer.updateOptions(options);
+  await TrackPlayer.updateOptions(options);
 }
