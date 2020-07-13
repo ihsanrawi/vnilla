@@ -1,12 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { TouchableWithoutFeedback, StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as actions from '../redux/actions';
 import Icon from './Icon';
-
-const CONTAINER_WIDTH = Dimensions.get('window').width * 0.82 + 10;
 
 const PlaybackControls = (props) => {
   const { media, currentTrack, isPlaying } = props;
@@ -24,15 +22,13 @@ const PlaybackControls = (props) => {
   }
 
   return (
-    <View style={(styles.container, { width: CONTAINER_WIDTH })}>
+    <View style={styles.container}>
       <Icon style={styles.icon} {...icons.skipBackward} onPress={skipBackward} />
-      <TouchableWithoutFeedback onPress={() => props.setPlayback(!isPlaying)}>
-        {isPlaying ? (
-          <Icon style={styles.icon} {...icons.pause} />
-        ) : (
-          <Icon style={styles.icon} {...icons.play} />
-        )}
-      </TouchableWithoutFeedback>
+      {isPlaying ? (
+        <Icon style={styles.icon} {...icons.pause} onPress={() => props.setPlayback(!isPlaying)} />
+      ) : (
+        <Icon style={styles.icon} {...icons.play} onPress={() => props.setPlayback(!isPlaying)} />
+      )}
       <Icon style={styles.icon} {...icons.skipForward} onPress={skipForward} />
     </View>
   );
@@ -51,11 +47,13 @@ export default connect(mapStateToProps, actions)(PlaybackControls);
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
+    height: 54,
+    marginTop: 32,
   },
   icon: {
-    padding: 5,
+    marginHorizontal: 8,
   },
 });
 
@@ -63,21 +61,21 @@ const icons = {
   play: {
     type: 'material',
     name: 'play-arrow',
-    size: 20,
+    size: 42,
   },
   pause: {
     type: 'material',
     name: 'pause',
-    size: 20,
+    size: 42,
   },
   skipForward: {
     type: 'material',
     name: 'fast-forward',
-    size: 20,
+    size: 42,
   },
   skipBackward: {
     type: 'material',
     name: 'fast-rewind',
-    size: 20,
+    size: 42,
   },
 };
