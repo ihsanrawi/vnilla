@@ -33,7 +33,7 @@ const icons = {
 };
 
 const MiniPlayer = (props) => {
-  const { isPlaying, renderMiniPlayer, media, currentTrack } = props;
+  const { isPlaying, media, currentTrack } = props;
   const { position, duration } = useTrackPlayerProgress(100);
 
   const tooglePlayback = () => {
@@ -49,8 +49,8 @@ const MiniPlayer = (props) => {
   let progress = position / duration;
   progress = isNaN(progress) ? 0 : +progress.toFixed(3);
 
-  return renderMiniPlayer ? (
-    <TouchableWithoutFeedback onPress={() => navigation.navigate('player')}>
+  return (
+    <TouchableWithoutFeedback onPress={() => {}}>
       <View style={styles.container}>
         <View style={styles.artworkContainer}>
           {currentTrack.artwork ? (
@@ -75,12 +75,11 @@ const MiniPlayer = (props) => {
         </View>
       </View>
     </TouchableWithoutFeedback>
-  ) : null;
+  );
 };
 
 const mapStateToProps = (state) => {
   return {
-    renderMiniPlayer: state.footer.footerVisible,
     media: state.media.mediaFiles,
     currentTrack: state.playback.currentTrack,
     isPlaying: state.player.isPlaying,
