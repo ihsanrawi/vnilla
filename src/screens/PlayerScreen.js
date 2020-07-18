@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from '../redux/actions';
 
@@ -14,7 +14,7 @@ const PlayerScreen = (props) => {
   const { currentTrack } = props;
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.closeContainer}>
         <ChevronWide width={42} height={42} />
       </View>
@@ -23,7 +23,7 @@ const PlayerScreen = (props) => {
       <TrackInfo currentTrack={currentTrack} />
       <PlaybackControls />
       <VolumeSlider />
-    </View>
+    </SafeAreaView>
   );
 };
 

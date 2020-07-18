@@ -18,7 +18,6 @@ function RootStack() {
       initialRouteName="main"
       screenOptions={screenOptions}>
       <Modal.Screen name="main" component={MainStack} />
-      <Modal.Screen name="player" component={PlayerScreen} />
     </Modal.Navigator>
   );
 }
