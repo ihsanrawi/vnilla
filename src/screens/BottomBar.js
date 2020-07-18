@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import { onGestureEvent, withSpring } from 'react-native-redash';
+import { onGestureEvent, withSpring, clamp } from 'react-native-redash';
 
 import PlayerScreen from './PlayerScreen';
 import MiniPlayer from '../components/MiniPlayer';
@@ -27,25 +27,32 @@ const BottomBar = () => {
   const translationY = new Value(0);
   const velocityY = new Value(0);
   const state = new Value(State.UNDETERMINED);
+  const offset = new Value(SNAP_TO_BOTTOM);
+
   const gestureHandler = onGestureEvent({
     state,
     translationY,
     velocityY,
   });
-  const translateY = withSpring({
-    state,
-    value: translationY,
-    velocity: velocityY,
-    snapPoints: [SNAP_TO_TOP, SNAP_TO_BOTTOM],
-    config,
-  });
+  const translateY = clamp(
+    withSpring({
+      state,
+      offset,
+      value: translationY,
+      velocity: velocityY,
+      snapPoints: [SNAP_TO_TOP, SNAP_TO_BOTTOM],
+      config,
+    }),
+    SNAP_TO_TOP,
+    SNAP_TO_BOTTOM,
+  );
   const opacity = interpolate(translateY, {
     inputRange: [SNAP_TO_BOTTOM - MINIMIZED_PLAYER_HEIGHT, SNAP_TO_BOTTOM],
     outputRange: [0, 1],
   });
 
   const overlayOpacity = interpolate(translateY, {
-    inputRange: [SNAP_TO_BOTTOM - MINIMIZED_PLAYER_HEIGHT, SNAP_TO_BOTTOM],
+    inputRange: [SNAP_TO_BOTTOM - MINIMIZED_PLAYER_HEIGHT * 2, SNAP_TO_BOTTOM],
     outputRange: [0, 1],
   });
 
