@@ -15,14 +15,9 @@ const VIEWPORT_HEIGHT = SCREEEN_HEIGHT - (STATUSBAR_HEIGHT + FOOTER_HEIGHT);
 const ITEM_HEIGHT = 75;
 
 const TrackScreen = (props) => {
-  const { currentTrack, mediaLoaded, mediaFiles, /* navigation, */ showFooter } = props;
+  const { currentTrack, mediaLoaded, mediaFiles /* navigation, */ } = props;
   const [scrollY] = useState(new Animated.Value(0));
   const [modal, setModal] = useState({ visible: false, item: {} });
-
-  /* useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', showFooter);
-    return unsubscribe;
-  }, [navigation, showFooter]); */
 
   useEffect(() => {
     setupPlayer().then(() => currentTrack.id !== '000' && TrackPlayer.add(currentTrack));
