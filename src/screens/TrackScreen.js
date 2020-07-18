@@ -73,7 +73,7 @@ const TrackScreen = (props) => {
 
 function mapStateToProps(state) {
   return {
-    currentTrack: state.playback.currentTrack,
+    currentTrack: state.media.currentTrack,
     mediaFiles: state.media.mediaFiles,
     mediaLoaded: state.media.mediaLoaded,
   };

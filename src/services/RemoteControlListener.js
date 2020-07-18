@@ -48,9 +48,8 @@ module.exports = async function () {
   });
 
   TrackPlayer.addEventListener('playback-queue-ended', ({ position }) => {
-    const { playback, media } = store.getState();
-    const { currentTrack } = playback;
-    const { mediaFiles } = media;
+    const { media } = store.getState();
+    const { mediaFiles, currentTrack } = media;
     if (position > 0) {
       backgroundPlayback(
         currentTrack.index === mediaFiles.length - 1

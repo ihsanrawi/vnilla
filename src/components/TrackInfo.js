@@ -14,7 +14,9 @@ const TrackInfo = ({ currentTrack }) => {
       <Text style={styles.label} numberOfLines={1}>
         {title}
       </Text>
-      <Text style={styles.sublabel}>{sublabel}</Text>
+      <Text style={styles.sublabel} numberOfLines={1}>
+        {sublabel}
+      </Text>
     </View>
   );
 };
@@ -27,8 +29,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     width: LABEL_WIDTH,
-    backgroundColor: 'cyan',
     textAlign: 'center',
   },
-  sublabel: { color: color.red[4], marginTop: 8, fontSize: 18 },
+  sublabel: {
+    color: color.red[4],
+    marginTop: 8,
+    fontSize: 18,
+    width: LABEL_WIDTH,
+    textAlign: 'center',
+  },
 });

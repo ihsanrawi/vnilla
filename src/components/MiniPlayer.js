@@ -81,8 +81,8 @@ const MiniPlayer = (props) => {
 const mapStateToProps = (state) => {
   return {
     media: state.media.mediaFiles,
-    currentTrack: state.playback.currentTrack,
-    isPlaying: state.player.isPlaying,
+    currentTrack: state.media.currentTrack,
+    isPlaying: state.media.isPlaying,
   };
 };
 

@@ -28,7 +28,7 @@ const PlayerScreen = (props) => {
 };
 
 function mapStateToProps(state) {
-  return { currentTrack: state.playback.currentTrack };
+  return { currentTrack: state.media.currentTrack };
 }
 
 export default connect(mapStateToProps, actions)(PlayerScreen);
